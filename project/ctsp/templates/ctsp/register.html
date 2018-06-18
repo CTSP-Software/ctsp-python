@@ -1,0 +1,106 @@
+<div class="container col-5">
+    <form class="needs-validation" action="#paginarecolherdados" method="post" id="formulariocadastro" novalidate>
+        <br>
+        <h1 class="text-center text-dark">Informações Básicas</h1>
+        <br>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label for="Nome">Nome</label>
+                <input class="form-control" onkeypress="return !isNumberKey(event)" name="nome" type="text" value="" id="Nome" placeholder="Nome">
+            </div>
+            <div class="form-group col-6">
+                <label for="sobrenome">Sobrenome</label>
+                <input class="form-control" onkeypress="return !isNumberKey(event)" name="sobrenome" type="text" value="" id="sobrenome" placeholder="Sobrenome">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dataNascimento">Data de Nascimento</label>
+            <input class="form-control" name="date" type="text" id="dataNascimento" placeholder="DD/MM/YYYY" autocomplete="off">
+        </div>
+        <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input class="form-control" onkeypress="return isNumberKey(event)" name="telefone" type="tel" value="" id="telefone" placeholder="Telefone">
+        </div>
+        <div class="form-group">
+            <label for="habilidades">Habilidades</label>
+            <textarea class="form-control" name="habilidades" id="habilidades" rows="3" placeholder="Escreva aqui um breve resumo das suas habilidades prossionais."></textarea>
+        </div>
+
+        <h2 class="text-center text-dark mt-5">Dados De Logon</h2>
+        <div class="form-group">
+            <label for="email">Email*</label>
+            <input class="form-control" name="email" type="email" value="" id="email" placeholder="seuemail@dominio.com" required>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-6">
+                <label for="senha">Senha*</label>
+                <input class="form-control" name="senha" value="" type="password" id="senha" minlength="8" placeholder="Crie sua senha" required>
+            </div>
+
+            <div class="form-group col-6">
+                <label for="confirmsenha">Confirmação*</label>
+                <input class="form-control" oninput="isEqual()" name="confirmsenha" value="" type="password" id="confirmsenha" minlength="8" placeholder="Confirme sua senha" required>
+            </div>
+        </div>
+        <br>
+        <div class="text-center">
+            <button type="submit" class="col-3 btn btn-primary">Cadastrar</button>
+        </div>
+        <br>
+    </form>
+    <script>
+        //// Script validation form
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+
+        function isNumberKey(evt)
+        {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+        function isEqual()
+        {
+            var password = document.getElementById("senha")
+                , confirm_password = document.getElementById("confirmsenha");
+
+            if(password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+    </script>
+</div>
+<script>
+    $(document).ready(function(){
+        var date_input=$('input[name="date"]'); //our date input has the name "date"
+        var container=$('.bootstrap form').length>0 ? $('.bootstrap form').parent() : "body";
+        var options={
+            format: 'dd/mm/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        };
+        date_input.datepicker(options);
+    })
+</script>
