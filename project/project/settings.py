@@ -76,7 +76,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ctsp',
         'USER': 'ctsp',
-        'PASSWORD': '',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '',
         'OPTIONS': {
