@@ -7,9 +7,10 @@
 apt install -y python3
 apt install -y python3-dev
 apt install -y python3-venv
+apt install -y python3-pip
 apt install -y mysql-client
 apt install -y mysql-server
-apt install -y default-libmysqlclient-dev
+apt install -y libmysqlclient-dev
 apt install -y expect
 
 # configuring mysql user, and correcting a plugin problem that has been introduced in version 17.10
@@ -18,7 +19,7 @@ echo -en "\n[root] root password for mysql:"
 read -s rpw
 
 # making needed changes to mysql
-mysql -u root -p${rpw} -e "create database ctsp;create user 'ctsp'@'localhost' identified by '';grant all on ctsp.* to 'ctsp'@'localhost';update mysql.user set plugin='' where User='ctsp';flush privileges"
+mysql -u root -p${rpw} -e "create database ctsp;create user 'ctsp'@'localhost' identified by '123456';grant all on ctsp.* to 'ctsp'@'localhost';update mysql.user set plugin='' where User='ctsp';flush privileges"
 
 # creating the virtual env
 python3 -m venv ../venv
@@ -27,12 +28,12 @@ python3 -m venv ../venv
 source ../venv/bin/activate
 
 # installing needed packages
-pip install -U wheel 
-pip install -U pytz
-pip install -U pylint 
-pip install -U autopep8 
-pip install -U django 
-pip install -U mysqlclient
+pip3 install -U wheel 
+pip3 install -U pytz
+pip3 install -U pylint 
+pip3 install -U autopep8 
+pip3 install -U django 
+pip3 install -U mysqlclient
 
 # makemigrations
 python ../project/manage.py makemigrations
