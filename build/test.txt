@@ -1,0 +1,1 @@
+This is a text file created with the only intent to force modifications on the project while testing CI operations.
