@@ -8,6 +8,7 @@ This module contains the application <app_url>/admin/ configuration
 To learn more about the ModelAdmin class refer to: https://docs.djangoproject.com/en/2.0/ref/contrib/admin/
 '''
 
+
 class PageAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Category Information", {"fields": [
