@@ -15,6 +15,7 @@ Those views have methods and variables ready for it's cenario.
 To learn more about class based views refer to: https://docs.djangoproject.com/en/2.0/ref/class-based-views/
 '''
 
+
 class IndexView(View):
     template_name = 'ctsp/index.html'
 
@@ -51,10 +52,6 @@ class IndexView(View):
         query = QueryProjectForm()
         context = {'query': query, 'form': form}
         return render(request, self.template_name, context)
-
-
-class CreateMembersView(TemplateView):
-    template_name = "ctsp/create_members.html"
 
 
 class CreatePbacklogView(TemplateView):
@@ -96,3 +93,11 @@ class WelcomeProjectView(TemplateView):
 
 class AboutView(TemplateView):
     template_name = 'ctsp/about.html'
+
+
+class CreateMembers(TemplateView):
+    template_name = 'ctsp/create_members.html'
+
+
+class RegisterUser(TemplateView):
+    template_name = 'ctsp/register_user.html'

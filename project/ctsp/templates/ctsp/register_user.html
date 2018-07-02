@@ -1,3 +1,9 @@
+{% extends 'ctsp/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+Register User - CTSP
+{% endblock %}
+{% block body_block %}
 <div class="container col-5">
     <form class="needs-validation" action="#paginarecolherdados" method="post" id="formulariocadastro" novalidate>
         <br>
@@ -91,6 +97,7 @@
         }
     </script>
 </div>
+{% endblock %}
 <script>
     $(document).ready(function(){
         var date_input=$('input[name="date"]'); //our date input has the name "date"
