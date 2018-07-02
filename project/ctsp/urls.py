@@ -14,8 +14,6 @@ urlpatterns = [
     path('welcome/', views.CreateProjectView.as_view(), name='create_project'),
     path('welcome/<int:pk>/', views.WelcomeProjectView.as_view(),
          name='project_welcome'),
-    path('create_members/<int:pk>/',
-         views.CreateMembersView.as_view(), name='create_members'),
     path('create_pbacklog/<int:pk>/',
          views.CreatePbacklogView.as_view(), name='create_pbacklog'),
     path('create_sprint/<int:pk>/',
@@ -23,4 +21,7 @@ urlpatterns = [
     path('assign_members/<int:pk>/',
          views.AssignMembersView.as_view(), name='assign_members'),
     path('about/', views.AboutView.as_view(), name='about'),
+    path('create_members/<int:pk>/',
+         views.CreateMembers.as_view(), name='create_members'),
+    path('register_user/', views.RegisterUser.as_view(), name='register_user')
 ]

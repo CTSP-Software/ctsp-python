@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
-from .models import Project
+from .models import Project, User
 from django.contrib import messages
 
 # Create your forms here.
@@ -45,6 +45,14 @@ class ProjectForm(forms.ModelForm, forms.Form):
             if final_date < start_date:
                 raise forms.ValidationError("string error")
             return cleaned_data
+
+
+class UserForm(forms.ModelForm):
+    user_name = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class': 'form-control',
+        }
+    ), label='Name', max_length=User.user_name_max_length)
 
 
 class QueryProjectForm(forms.ModelForm):
