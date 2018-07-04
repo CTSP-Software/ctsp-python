@@ -2,10 +2,12 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.base import View
-from .forms import ProjectForm, QueryProjectForm
-from .models import Project
+from .forms import ProjectForm, QueryProjectForm, UserForm
+from .models import Project, Usuario
 from itertools import chain
 from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -47,7 +49,7 @@ class IndexView(View):
                 })
         return JsonResponse(context, safe=False)
 
-    def get(self, request, *args):
+    def get(self, request):
         form = ProjectForm()
         query = QueryProjectForm()
         context = {'query': query, 'form': form}
@@ -66,7 +68,7 @@ class AssignMembersView(TemplateView):
     template_name = "ctsp/assign_members.html"
 
 
-class CreateProjectView(RedirectView):
+class CreateProjectView(View):
     '''
     This redirect view is used as a middleware view to creating a unique URL for the project.
     The URL contains the actual database PK for the project which is generated at the momment it is saved.
@@ -75,11 +77,16 @@ class CreateProjectView(RedirectView):
 
     pattern_name = 'project_welcome'
 
+    def get(self, request):
+        return render(request, 'ctsp:project_welcome')
+
     def post(self, request, *args, **kwargs):
         form = ProjectForm(request.POST)
         if form.is_valid():
             project = form.save(commit=True)
             return redirect('ctsp:project_welcome', pk=project.pk, permanent=False)
+
+        return redirect('index')
 
 
 class WelcomeProjectView(TemplateView):
@@ -99,5 +106,27 @@ class CreateMembers(TemplateView):
     template_name = 'ctsp/create_members.html'
 
 
-class RegisterUser(TemplateView):
+class RegisterUser(View):
     template_name = 'ctsp/register_user.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        form = UserForm(request.POST)
+
+        dados_form = form.data
+
+        if form.is_valid():
+            novo_usuario = User.objects.create_user(dados_form['nome'], dados_form['email'], dados_form['senha'])
+            usuario = Usuario(user_name=dados_form['nome'],
+                              user_last_name=dados_form['sobrenome'],
+                              user_birthday=dados_form['data'],
+                              user_cellphone_number=dados_form['telefone'],
+                              user_habilities=dados_form['habilidades'],
+                              user_usuario=novo_usuario)
+
+            usuario.save()
+            return redirect('ctsp:index')
+
+        return render(request, self.template_name, {"form": form})
