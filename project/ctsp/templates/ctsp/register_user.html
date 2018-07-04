@@ -5,7 +5,16 @@ Register User - CTSP
 {% endblock %}
 {% block body_block %}
 <div class="container col-5">
-    <form class="needs-validation" action="#paginarecolherdados" method="post" id="formulariocadastro" novalidate>
+    <form class="form-signin" action="#" method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
         <br>
         <h1 class="text-center text-dark">Informações Básicas</h1>
         <br>
@@ -21,15 +30,15 @@ Register User - CTSP
         </div>
         <div class="form-group">
             <label for="dataNascimento">Data de Nascimento</label>
-            <input class="form-control" name="date" type="text" id="dataNascimento" placeholder="DD/MM/YYYY" autocomplete="off">
+            <input class="form-control" name="data" type="text" id="dataNascimento" placeholder="DD/MM/YYYY" autocomplete="off">
         </div>
         <div class="form-group">
             <label for="telefone">Telefone</label>
-            <input class="form-control" onkeypress="return isNumberKey(event)" name="telefone" type="tel" value="" id="telefone" placeholder="Telefone">
+            <input class="form-control" onkeypress="return isNumberKey(event)" name="telefone" type="text" value="" id="telefone" placeholder="Telefone">
         </div>
         <div class="form-group">
             <label for="habilidades">Habilidades</label>
-            <textarea class="form-control" name="habilidades" id="habilidades" rows="3" placeholder="Escreva aqui um breve resumo das suas habilidades prossionais."></textarea>
+            <input class="form-control" name="habilidades" id="habilidades" rows="3" placeholder="Escreva um breve resumo das suas habilidades profissionais.">
         </div>
 
         <h2 class="text-center text-dark mt-5">Dados De Logon</h2>
@@ -54,6 +63,7 @@ Register User - CTSP
             <button type="submit" class="col-3 btn btn-primary">Cadastrar</button>
         </div>
         <br>
+
     </form>
     <script>
         //// Script validation form

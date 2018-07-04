@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from django.utils import timezone
 from django.core.validators import RegexValidator
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -13,22 +14,24 @@ To learn more about Django database models refer to: https://docs.djangoproject.
 '''
 
 
-class User(models.Model):
+class Usuario(models.Model):
     # user information data
     user_name = models.CharField(max_length=128, null=False, blank=False)
     user_name_max_length = user_name.max_length
     user_last_name = models.CharField(max_length=128, null=False, blank=False)
     user_lane_name_max_length = user_last_name.max_length
-    user_birthday = models.DateField(null=False, blank=False)
-    user_cellphone_regex = RegexValidator(
-        regex=r"^\+\d{2}\s\d{2}\s\d{9,12}$", message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    user_cellphone_number = models.CharField(
-        validators=[user_cellphone_regex], max_length=15)
-    user_habilities = models.TextField(max_length=300)
+    user_birthday = models.CharField(max_length=20, null=False, blank=False)
+    user_cellphone_number = models.CharField(max_length=15)
+    user_habilities = models.CharField(max_length=300)
+    user_usuario = models.OneToOneField(User, related_name="usuario_relacionado", on_delete='Cascade')
 
-    # user logon data
-    user_email = models.EmailField(max_length=128)
-    user_password = models.CharField(max_length=128, null=False)
+    @property
+    def email(self):
+        return self.user_usuario.email
+
+   # user logon data
+   # user_email = models.EmailField(max_length=128)
+   # user_password = models.CharField(max_length=128, null=False)
 
     class Meta:
         ordering = ('user_name',)
@@ -41,38 +44,17 @@ class Project(models.Model):
     # project information
     project_name = models.CharField(max_length=128, null=False, blank=False)
     project_name_max_length = project_name.max_length
-    project_start_date = models.DateField(
-        default=timezone.now, null=False, blank=False)
-    project_final_date = models.DateField(
-        default=timezone.now, null=False, blank=False)
+    project_start_date = models.DateField(default=timezone.now, null=False, blank=False)
+    project_final_date = models.DateField(default=timezone.now, null=False, blank=False)
 
     # project relation
-    project_members = models.ManyToManyField(User)
+    # project_members = models.ManyToManyField(User)
 
     class Meta:
         ordering = ('project_name',)
 
     def __str__(self):
         return self.project_name
-
-
-# class Usuario(models.Model):
-#     usuario_name = models.CharField(max_length=30, null=False)
-#     usuario_name_max_length = usuario_name.max_length
-#     usuario_sobrename = models.CharField(max_length=100, null=False)
-#     usuario_sobrename_max_length = usuario_sobrename.max_length
-#     usuario_nascimento = models.DateField(default=timezone.now, null=True)
-#     usuario_telefone = models.CharField(
-#         'Telefone para Contato', max_length=13, blank=True, null=True)
-#     usuario_habilidades = models.CharField(max_length=300, null=True)
-#     usuario_email = models.CharField(max_length=50, null=False)
-#     usuario_senha = models.CharField(
-#         max_length=100, null=False, primary_key=True)
-#     usuario_membroId = models.ForeignKey(
-#         'membroDoTime_id', on_delete=models.CASCADE)
-
-#     def _str_(self):
-#         return self.usuario_email_max_length
 
 
 # class MembroDoTime(models.Model):

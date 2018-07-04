@@ -24,12 +24,20 @@
             <form action="{% url 'ctsp:create_project' %}" id="create_form" method="post">
                 {% csrf_token %} {% for hidden in form.hidden_fields %} {{ hidden }} {% endfor %}
                 <div class="modal-body">
-                    {% for field in form.visible_fields %}
                     <div style="padding-bottom: 2vh">
-                        <label>{{ field.label }}</label>
-                        {{ field }}
+                        <label>Project Name</label>
+                        <input type="text" name="project_name" id="id_project_name" maxlength="128" required class="form-control" />
                     </div>
-                    {%endfor%}
+
+                    <div style="padding-bottom: 2vh">
+                        <label>Start date</label>
+                        <input type="text" name="project_start_date" required class="form-control control-label" autocomplete="off" placeholder="MM/DD/YYY" id="start_date" />
+                    </div>
+
+                    <div style="padding-bottom: 2vh">
+                        <label>Final date</label>
+                        <input type="text" name="project_final_date" required class="form-control control-label" autocomplete="off" placeholder="MM/DD/YYY" id="final_date" />
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" name="submit" form="create_form" data-dismiss="modal-body">Create
