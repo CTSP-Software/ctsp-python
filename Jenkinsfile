@@ -3,7 +3,8 @@ pipeline{
     stages{
         stage('Build'){
             steps {
-                echo "q"
+                cd build
+                ./configure.sh
             }
         }
         // stage('Test'){
