@@ -6,6 +6,7 @@ pipeline{
         stage('Build'){
             steps {
                 sh 'echo "Building... (maybe not needed)"'
+                sh 'ls'
             }
         }
         stage('Test'){
@@ -20,9 +21,6 @@ pipeline{
         }
     }
     post {
-        always {
-            echo 'Build done'
-        }
         success {
             echo 'SUCCESSFULL build!'
         }
