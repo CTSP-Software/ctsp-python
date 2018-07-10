@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from project.usuarios.forms import UserForm
-from project.usuarios.models import Usuario
+from .forms import UserForm
+from .models import Usuario
 
 # Create your views here.
 from django.views import View
 
 
 class RegisterUser(View):
-    template_name = 'ctsp/register_user.html'
+    template_name = 'register_user.html'
 
     def get(self, request):
         return render(request, self.template_name)

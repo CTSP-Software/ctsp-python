@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.base import View
-from .forms import ProjectForm, QueryProjectForm, UserForm
-from .models import Project, Usuario
+from .forms import ProjectForm, QueryProjectForm, PapelForm
+from .models import Project
 from itertools import chain
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -50,6 +50,7 @@ class IndexView(View):
         return JsonResponse(context, safe=False)
 
     def get(self, request):
+        print(request.user.username)
         form = ProjectForm()
         query = QueryProjectForm()
         context = {'query': query, 'form': form}
@@ -102,31 +103,17 @@ class AboutView(TemplateView):
     template_name = 'ctsp/about.html'
 
 
-class CreateMembers(TemplateView):
-    template_name = 'ctsp/create_members.html'
-
-
-class RegisterUser(View):
-    template_name = 'ctsp/register_user.html'
+class CriarPapeis(View):
+    template_name = 'ctsp/CadastroPapeis.html'
 
     def get(self, request):
         return render(request, self.template_name)
 
     def post(self, request):
-        form = UserForm(request.POST)
+        form = PapelForm(request.POST)
 
         dados_form = form.data
 
         if form.is_valid():
-            novo_usuario = User.objects.create_user(dados_form['nome'], dados_form['email'], dados_form['senha'])
-            usuario = Usuario(user_name=dados_form['nome'],
-                              user_last_name=dados_form['sobrenome'],
-                              user_birthday=dados_form['data'],
-                              user_cellphone_number=dados_form['telefone'],
-                              user_habilities=dados_form['habilidades'],
-                              user_usuario=novo_usuario)
+            usuario = User.objects.get(email='fabio@fabio.com')
 
-            usuario.save()
-            return redirect('ctsp:index')
-
-        return render(request, self.template_name, {"form": form})

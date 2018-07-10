@@ -3,7 +3,8 @@ import datetime
 from django.utils import timezone
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
-
+from usuarios.models import Usuario
+from .models import Project
 
 # Create your models here.
 
@@ -14,30 +15,10 @@ To learn more about Django database models refer to: https://docs.djangoproject.
 '''
 
 
-class Usuario(models.Model):
-    # user information data
-    user_name = models.CharField(max_length=128, null=False, blank=False)
-    user_name_max_length = user_name.max_length
-    user_last_name = models.CharField(max_length=128, null=False, blank=False)
-    user_lane_name_max_length = user_last_name.max_length
-    user_birthday = models.CharField(max_length=20, null=False, blank=False)
-    user_cellphone_number = models.CharField(max_length=15)
-    user_habilities = models.CharField(max_length=300)
-    user_usuario = models.OneToOneField(User, related_name="usuario_relacionado", on_delete='Cascade')
-
-    @property
-    def email(self):
-        return self.user_usuario.email
-
-   # user logon data
-   # user_email = models.EmailField(max_length=128)
-   # user_password = models.CharField(max_length=128, null=False)
-
-    class Meta:
-        ordering = ('user_name',)
-
-    def __str__(self):
-        return self.user_name
+class Papel(models.model):
+    nome_papel = models.CharField(max_length=128)
+    usuario_designado = models.ForeignKey(Usuario)
+    projeto_designado = models.ForeignKey(Project)
 
 
 class Project(models.Model):
@@ -46,6 +27,7 @@ class Project(models.Model):
     project_name_max_length = project_name.max_length
     project_start_date = models.DateField(default=timezone.now, null=False, blank=False)
     project_final_date = models.DateField(default=timezone.now, null=False, blank=False)
+    project_members = models.ManyToManyField(Usuario, related_name='projetos_atuais')
 
     # project relation
     # project_members = models.ManyToManyField(User)
