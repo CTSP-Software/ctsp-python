@@ -7,6 +7,7 @@ pipeline{
             steps {
                 sh 'echo "Building... (maybe not needed)"'
                 sh 'ls'
+                sh 'sh build/configure.sh'
             }
         }
         stage('Test'){
