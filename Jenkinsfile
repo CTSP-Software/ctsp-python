@@ -4,7 +4,7 @@ pipeline{
         stage('Build'){
             steps {
                 sh 'cd build'
-                sh './configure.sh'
+                sh './build/configure.sh'
             }
         }
         // stage('Test'){
