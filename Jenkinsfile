@@ -3,8 +3,8 @@ pipeline{
     stages{
         stage('Build'){
             steps {
-                cd build
-                ./configure.sh
+                cd 'build'
+                sh 'configure.sh'
             }
         }
         // stage('Test'){
