@@ -118,7 +118,8 @@ class RegisterUser(View):
         dados_form = form.data
 
         if form.is_valid():
-            novo_usuario = User.objects.create_user(dados_form['nome'], dados_form['email'], dados_form['senha'])
+            novo_usuario = User.objects.create_user(
+                dados_form['nome'], dados_form['email'], dados_form['senha'])
             usuario = Usuario(user_name=dados_form['nome'],
                               user_last_name=dados_form['sobrenome'],
                               user_birthday=dados_form['data'],
@@ -130,3 +131,25 @@ class RegisterUser(View):
             return redirect('ctsp:index')
 
         return render(request, self.template_name, {"form": form})
+
+
+class LogInMember(View):
+    template_name = 'ctsp/login.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        return redirect("ctsp:product_backlog")
+
+
+class ProductBacklog(TemplateView):
+    template_name = 'ctsp/product_backlog.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductBacklog, self).get_context_data(**kwargs)
+        context['projects'] = Project.objects.all()
+        return context
+
+    def post(self, request):
+        return redirect('ctsp:index')

@@ -1,0 +1,40 @@
+{% extends 'ctsp/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Login - CTSP
+{% endblock %}
+
+
+{% block body_block %}
+<h1>Product Backlog</h1>
+<p>Select your project below:</p>
+<select>
+    {% for field in projects %}
+        <option>{{field.project_name}}</option>
+    {%endfor%}
+</select>
+    
+<p>
+    <button id='more_button' name='more_buton' > ADD US <img src="https://banner2.kisspng.com/20180315/zhw/kisspng-plus-and-minus-signs-clip-art-plus-sign-clipart-5aaad86128c511.589061321521145953167.jpg" width='20' height='15' alt="plus symbol image"> </button>
+</p>
+
+<div id='US_desc'>
+    <ul id='US_desc_list'>
+        <li>
+            <textarea rows='4' cols='50'>
+            </textarea><button>more</button>
+        </li>
+    </ul>
+</div>
+
+<script>
+    $('button[name="more_buton"]').on('click', function(){
+        $('#US_desc_list').append(
+            "<li>" + 
+            "<textarea rows='4' cols='50'></textarea>" +
+            "<button>more</button>" +
+            "</li>"
+        )
+    })
+</script>
+{%endblock%}
