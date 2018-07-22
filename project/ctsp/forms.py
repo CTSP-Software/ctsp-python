@@ -73,7 +73,8 @@ class UserForm(forms.Form):
         return valid
 
     def adiciona_erro(self, message):
-        errors = self._errors.setdefault(forms.forms.NON_FIELD_ERRORS, forms.utils.ErrorList())
+        errors = self._errors.setdefault(
+            forms.forms.NON_FIELD_ERRORS, forms.utils.ErrorList())
         errors.append(message)
 
 

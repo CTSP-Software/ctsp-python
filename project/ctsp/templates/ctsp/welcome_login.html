@@ -1,0 +1,21 @@
+{% extends 'ctsp/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+Welcome! - CTSP
+{% endblock %}
+
+{%block body_block%}
+<h1>Select your project below:</h1>
+<select>
+    {% for field in view.projects %}
+        <option>{{field.project_name}}</option>
+    {%endfor%}
+</select>
+<p>
+    <form action="{% url 'ctsp:product_backlog' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Go To Product Backlog!">
+    </form>
+</p>
+{%endblock%}
+

@@ -8,6 +8,7 @@ from itertools import chain
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.utils.functional import cached_property
 
 # Create your views here.
 
@@ -140,7 +141,7 @@ class LogInMember(View):
         return render(request, self.template_name)
 
     def post(self, request):
-        return redirect("ctsp:product_backlog")
+        return redirect("ctsp:welcome_login")
 
 
 class ProductBacklog(TemplateView):
@@ -152,4 +153,22 @@ class ProductBacklog(TemplateView):
         return context
 
     def post(self, request):
-        return redirect('ctsp:index')
+        return render(request, self.template_name)
+
+
+class WelcomeLogin(TemplateView):
+    template_name = 'ctsp/welcome_login.html'
+
+    # "get_context_data" not needed anymore, substituted by the "projects" function above
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(WelcomeLogin, self).get_context_data(**kwargs)
+    #     context['projects'] = Project.objects.all()
+    #     return context
+
+    @cached_property
+    def projects(self):
+        return Project.objects.all()
+
+    def post(self, request):
+        return render(request, self.template_name)

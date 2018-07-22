@@ -12,7 +12,8 @@ To learn more about the django urls refer to: https://docs.djangoproject.com/en/
 
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
-    path('welcome/', views.CreateProjectView.as_view(), name='create_project'),
+    path('welcome_created/', views.CreateProjectView.as_view(),
+         name='create_project'),
     path('welcome/<int:pk>/', views.WelcomeProjectView.as_view(),
          name='project_welcome'),
     path('create_pbacklog/<int:pk>/',
@@ -26,6 +27,7 @@ urlpatterns = [
          views.CreateMembers.as_view(), name='create_members'),
     path('register_user/', views.RegisterUser.as_view(), name='register_user'),
     path('login/', views.LogInMember.as_view(), name='login'),
+    path('welcome_login/', views.WelcomeLogin.as_view(), name='welcome_login'),
     path('logout/', logout_then_login,
          {'login_url': '/login/'}, name='logout'),
     path('product_backlog/', views.ProductBacklog.as_view(), name='product_backlog')
