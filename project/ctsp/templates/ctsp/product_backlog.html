@@ -1,0 +1,78 @@
+{% extends 'ctsp/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Login - CTSP
+{% endblock %}
+
+
+{% block body_block %}
+<h1>Product Backlog</h1>
+
+
+<p>
+    <button id='more_button' name='more_buton' > ADD US <img src="https://banner2.kisspng.com/20180315/zhw/kisspng-plus-and-minus-signs-clip-art-plus-sign-clipart-5aaad86128c511.589061321521145953167.jpg" width='20' height='15' alt="plus symbol image"> </button>
+</p>
+
+<br>
+<div id="all">
+    <ul id="list">
+        <li>
+            <form>
+                <label for="us_name">US Title :</label>
+                <input name="US_name" type="text" id="us_name" placeholder="Title">
+
+                <label for="Select1">Type: </label>
+                <select id="Select1">
+                    <option value="US">User Storie</option>
+                    <option value="Epic">Epic</option>
+                    <option value="Theme">Theme</option>
+                </select>
+
+                <label for="Priority">Priority: </label>
+                <select id="Priority">
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <br>
+                    <textarea rows='4' cols='50' placeholder="User Storie Description"></textarea>
+                    <textarea rows='4' cols='50' placeholder="Acceptance Criteria"></textarea>
+                </br>
+            </form>
+        </li>
+    <ul>
+</div>
+
+
+
+<script>
+    $("#more_button").on('click', function(){
+        $("#list").append(
+            "<li>" +
+                "<form>"+
+                    '<label for="us_name">US Title :</label>' +
+                    '<input name="US_name" type="text" id="us_name" placeholder="Title">'+
+
+                    '<label for="Select1">Type: </label>'+
+                    '<select id="Select1">' +
+                        '<option value="US">User Storie</option>'+
+                        '<option value="Epic">Epic</option>'+
+                        '<option value="Theme">Theme</option>'+
+                    '</select>'+
+
+                    '<label for="Priority">Priority: </label>'+
+                    '<select id="Priority">'+
+                        '<option value="High">High</option>'+
+                        '<option value="Medium">Medium</option>'+
+                        '<option value="Low">Low</option>'+
+                    '</select>'+
+                    '<br>'+
+                        '<textarea rows="4" cols="50" placeholder="User Storie Description"></textarea> '+
+                        '<textarea rows="4" cols="50" placeholder="Acceptance Criteria"></textarea>'+
+                    '</br>'+
+                '</form>'+
+            "</li>"
+        )
+    })
+</script>
+{%endblock%}

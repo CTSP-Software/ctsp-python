@@ -5,9 +5,10 @@ pipeline{
     stages{
         stage('Build'){
             steps {
-                sh 'echo "Building... (maybe not needed)"'
-                sh 'ls'
-                sh 'sh build/configure.sh'
+                // sh 'echo "Building... (maybe not needed)"'
+                // sh 'ls'
+                // sh 'sh build/configure.sh'
+                // build not needed for interpreted project
             }
         }
         stage('Test'){
