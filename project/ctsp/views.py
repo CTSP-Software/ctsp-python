@@ -2,12 +2,13 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.base import View
-from .forms import ProjectForm, QueryProjectForm, PapelForm
-from .models import Project
+from .forms import ProjectForm, QueryProjectForm, UserForm
+from .models import Project, Usuario
 from itertools import chain
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.utils.functional import cached_property
 
 # Create your views here.
 
@@ -50,7 +51,6 @@ class IndexView(View):
         return JsonResponse(context, safe=False)
 
     def get(self, request):
-        print(request.user.username)
         form = ProjectForm()
         query = QueryProjectForm()
         context = {'query': query, 'form': form}
@@ -103,17 +103,72 @@ class AboutView(TemplateView):
     template_name = 'ctsp/about.html'
 
 
-class CriarPapeis(View):
-    template_name = 'ctsp/CadastroPapeis.html'
+class CreateMembers(TemplateView):
+    template_name = 'ctsp/create_members.html'
+
+
+class RegisterUser(View):
+    template_name = 'ctsp/register_user.html'
 
     def get(self, request):
         return render(request, self.template_name)
 
     def post(self, request):
-        form = PapelForm(request.POST)
+        form = UserForm(request.POST)
 
         dados_form = form.data
 
         if form.is_valid():
-            usuario = User.objects.get(email='fabio@fabio.com')
+            novo_usuario = User.objects.create_user(
+                dados_form['nome'], dados_form['email'], dados_form['senha'])
+            usuario = Usuario(user_name=dados_form['nome'],
+                              user_last_name=dados_form['sobrenome'],
+                              user_birthday=dados_form['data'],
+                              user_cellphone_number=dados_form['telefone'],
+                              user_habilities=dados_form['habilidades'],
+                              user_usuario=novo_usuario)
 
+            usuario.save()
+            return redirect('ctsp:index')
+
+        return render(request, self.template_name, {"form": form})
+
+
+class LogInMember(View):
+    template_name = 'ctsp/login.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        return redirect("ctsp:welcome_login")
+
+
+class ProductBacklog(TemplateView):
+    template_name = 'ctsp/product_backlog.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductBacklog, self).get_context_data(**kwargs)
+        context['projects'] = Project.objects.all()
+        return context
+
+    def post(self, request):
+        return render(request, self.template_name)
+
+
+class WelcomeLogin(TemplateView):
+    template_name = 'ctsp/welcome_login.html'
+
+    # "get_context_data" not needed anymore, substituted by the "projects" function above
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(WelcomeLogin, self).get_context_data(**kwargs)
+    #     context['projects'] = Project.objects.all()
+    #     return context
+
+    @cached_property
+    def projects(self):
+        return Project.objects.all()
+
+    def post(self, request):
+        return render(request, self.template_name)

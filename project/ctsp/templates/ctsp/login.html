@@ -1,4 +1,4 @@
-{% extends 'base_usuario.html' %}
+{% extends 'ctsp/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
     Login - CTSP
@@ -6,7 +6,7 @@
 
 {% block body_block %}
 <div class="container">
-    <form class="form-signin" role="form" action="{% url 'login' %}" method="post">
+    <form class="form-signin" role="form" action="{% url 'ctsp:login' %}" method="post">
 
         {% csrf_token %}
 
@@ -27,7 +27,7 @@
             </div>
         {% endif %}
 
-        <a href="{% url 'register_user' %}">registre-se</a>
+        <a href="{% url 'ctsp:register_user' %}">registre-se</a>
 
     </form>
 </div>

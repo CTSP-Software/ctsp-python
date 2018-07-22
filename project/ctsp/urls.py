@@ -11,12 +11,24 @@ To learn more about the django urls refer to: https://docs.djangoproject.com/en/
 '''
 
 urlpatterns = [
-    path('index/', views.IndexView.as_view(), name='index'),
-    path('welcome/', views.CreateProjectView.as_view(), name='create_project'),
-    path('welcome/<int:pk>/', views.WelcomeProjectView.as_view(), name='project_welcome'),
-    path('create_pbacklog/<int:pk>/', views.CreatePbacklogView.as_view(), name='create_pbacklog'),
-    path('create_sprint/<int:pk>/', views.CreateSprintView.as_view(), name='create_sprint'),
-    path('assign_members/<int:pk>/', views.AssignMembersView.as_view(), name='assign_members'),
+    path('', views.IndexView.as_view(), name='index'),
+    path('welcome_created/', views.CreateProjectView.as_view(),
+         name='create_project'),
+    path('welcome/<int:pk>/', views.WelcomeProjectView.as_view(),
+         name='project_welcome'),
+    path('create_pbacklog/<int:pk>/',
+         views.CreatePbacklogView.as_view(), name='create_pbacklog'),
+    path('create_sprint/<int:pk>/',
+         views.CreateSprintView.as_view(), name='create_sprint'),
+    path('assign_members/<int:pk>/',
+         views.AssignMembersView.as_view(), name='assign_members'),
     path('about/', views.AboutView.as_view(), name='about'),
-    path('create_members/<int:pk>/', views.CreateMembers.as_view(), name='create_members')
+    path('create_members/<int:pk>/',
+         views.CreateMembers.as_view(), name='create_members'),
+    path('register_user/', views.RegisterUser.as_view(), name='register_user'),
+    path('login/', views.LogInMember.as_view(), name='login'),
+    path('welcome_login/', views.WelcomeLogin.as_view(), name='welcome_login'),
+    path('logout/', logout_then_login,
+         {'login_url': '/login/'}, name='logout'),
+    path('product_backlog/', views.ProductBacklog.as_view(), name='product_backlog')
 ]
