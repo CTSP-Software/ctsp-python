@@ -6,11 +6,11 @@
 
 
 {% block body_block %}
-<h1>Product Backlog</h1>
+<h1 class="text-dark">Product Backlog</h1>
 
-
+<br>
 <p>
-    <button id='more_button' name='more_buton' > ADD US <img src="https://banner2.kisspng.com/20180315/zhw/kisspng-plus-and-minus-signs-clip-art-plus-sign-clipart-5aaad86128c511.589061321521145953167.jpg" width='20' height='15' alt="plus symbol image"> </button>
+    <button class="btn btn-primary" id='more_button' name='more_buton' > <strong> Adicionar Nova User Storie </strong> <img src="http://www.clker.com/cliparts/E/D/d/g/1/1/white-plus-hi.png" width='20' height='15' alt="plus symbol image"> </button>
 </p>
 
 <br>
@@ -20,6 +20,9 @@
             <form>
                 <label for="us_name">US Title :</label>
                 <input name="US_name" type="text" id="us_name" placeholder="Title">
+
+                <label for="us_estimative">Estimative :</label>
+                <input name="estimative" type="number" id="us_estimative" placeholder="Estimative">
 
                 <label for="Select1">Type: </label>
                 <select id="Select1">
@@ -50,25 +53,28 @@
         $("#list").append(
             "<li>" +
                 "<form>"+
-                    '<label for="us_name">US Title :</label>' +
-                    '<input name="US_name" type="text" id="us_name" placeholder="Title">'+
+                    '<label for="us_name">US Title :</label> ' +
+                    '<input name="US_name" type="text" id="us_name" placeholder="Title"> '+
 
-                    '<label for="Select1">Type: </label>'+
-                    '<select id="Select1">' +
+                    '<label for="us_estimative">Estimative :</label> '+
+                    '<input name="estimative" type="number" id="us_estimative" placeholder="Estimative"> '+
+
+                    '<label for="Select1">Type: </label> '+
+                    '<select id="Select1"> ' +
                         '<option value="US">User Storie</option>'+
                         '<option value="Epic">Epic</option>'+
                         '<option value="Theme">Theme</option>'+
-                    '</select>'+
+                    '</select> '+
 
-                    '<label for="Priority">Priority: </label>'+
-                    '<select id="Priority">'+
+                    '<label for="Priority">Priority: </label> '+
+                    '<select id="Priority"> '+
                         '<option value="High">High</option>'+
                         '<option value="Medium">Medium</option>'+
                         '<option value="Low">Low</option>'+
-                    '</select>'+
+                    '</select> '+
                     '<br>'+
                         '<textarea rows="4" cols="50" placeholder="User Storie Description"></textarea> '+
-                        '<textarea rows="4" cols="50" placeholder="Acceptance Criteria"></textarea>'+
+                        '<textarea rows="4" cols="50" placeholder="Acceptance Criteria"></textarea> '+
                     '</br>'+
                 '</form>'+
             "</li>"
