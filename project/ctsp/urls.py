@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.generic import RedirectView
+
 from . import views
 from django.contrib.auth.views import login, logout_then_login
 app_name = 'ctsp'
@@ -30,5 +32,6 @@ urlpatterns = [
     path('welcome_login/', views.WelcomeLogin.as_view(), name='welcome_login'),
     path('logout/', logout_then_login,
          {'login_url': '/login/'}, name='logout'),
-    path('product_backlog/', views.ProductBacklog.as_view(), name='product_backlog')
+    path('goto_product_backlog', views.ProductBacklogRedirect.as_view(), name='goto_product_backlog'),
+    path('product_backlog/<int:pk>/', views.ProductBacklog.as_view(), name='product_backlog')
 ]

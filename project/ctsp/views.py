@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.base import View
 from .forms import ProjectForm, QueryProjectForm, UserForm, USRegister
@@ -144,19 +144,22 @@ class LogInMember(View):
         return redirect("ctsp:welcome_login")
 
 
+class ProductBacklogRedirect(View):
+    pattern_name = 'ctsp:product_backlog'
+
+    def post(self, request):
+        pk = request.POST.get("select_project_pk")
+        return redirect(self.pattern_name, pk=pk)
+
+
 class ProductBacklog(TemplateView):
     template_name = 'ctsp/product_backlog.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProductBacklog, self).get_context_data(**kwargs)
+        context['form'] = USRegister()
         context['projects'] = Project.objects.all()
         return context
-
-    def post(self, request):
-        form = USRegister()
-        context = {'form': form}
-        return render(request, self.template_name, context)
-
 
 class WelcomeLogin(TemplateView):
     template_name = 'ctsp/welcome_login.html'
@@ -170,7 +173,7 @@ class WelcomeLogin(TemplateView):
 
     @cached_property
     def projects(self):
-        return Project.objects.all()
+        return Project.objects.only('project_name', 'pk')
 
     def post(self, request):
         return render(request, self.template_name)

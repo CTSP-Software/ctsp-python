@@ -6,16 +6,18 @@ Welcome! - CTSP
 
 {%block body_block%}
 <h1>Select your project below:</h1>
-<select>
-    {% for field in view.projects %}
-        <option>{{field.project_name}}</option>
-    {%endfor%}
-</select>
-<p>
-    <form action="{% url 'ctsp:product_backlog' %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Go To Product Backlog!">
-    </form>
-</p>
+
+<form id="project_select_form" name="project_select_form" action="{% url 'ctsp:goto_product_backlog' %}" method="post">
+    {% csrf_token %}
+    <p>
+        Project Name:
+        <select id="select_project_pk" name="select_project_pk">
+            {% for field in view.projects %}
+            <option value="{{field.pk}}">{{field.project_name}}</option>
+            {%endfor%}
+        </select>
+    </p>
+    <input type="submit" value="Go To Product Backlog!">
+</form>
 {%endblock%}
 
