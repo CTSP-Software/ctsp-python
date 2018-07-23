@@ -3,7 +3,7 @@ import datetime
 from django.utils import timezone
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
-
+from enum import Enum
 
 # Create your models here.
 
@@ -23,7 +23,8 @@ class Usuario(models.Model):
     user_birthday = models.CharField(max_length=20, null=False, blank=False)
     user_cellphone_number = models.CharField(max_length=15)
     user_habilities = models.CharField(max_length=300)
-    user_usuario = models.OneToOneField(User, related_name="usuario_relacionado", on_delete='Cascade')
+    user_usuario = models.OneToOneField(
+        User, related_name="usuario_relacionado", on_delete='Cascade')
 
     @property
     def email(self):
@@ -44,8 +45,10 @@ class Project(models.Model):
     # project information
     project_name = models.CharField(max_length=128, null=False, blank=False)
     project_name_max_length = project_name.max_length
-    project_start_date = models.DateField(default=timezone.now, null=False, blank=False)
-    project_final_date = models.DateField(default=timezone.now, null=False, blank=False)
+    project_start_date = models.DateField(
+        default=timezone.now, null=False, blank=False)
+    project_final_date = models.DateField(
+        default=timezone.now, null=False, blank=False)
 
     # project relation
     # project_members = models.ManyToManyField(User)
@@ -55,6 +58,31 @@ class Project(models.Model):
 
     def __str__(self):
         return self.project_name
+
+
+class USType(Enum):
+    US = "User Story"
+    EP = "Epic"
+    TH = "Theme"
+
+
+class USPriority(Enum):
+    H = "High"
+    M = "Medium"
+    L = "Low"
+
+
+class US(models.Model):
+    # US fields
+    us_project = models.ForeignKey(
+        Project, on_delete=models.CASCADE)  # many US to one Project
+    us_title = models.CharField(max_length=128, null=False, blank=False)
+    us_estimative = models.IntegerField(null=False, blank=False)
+    us_type = models.CharField(max_length=2, null=False, blank=False, choices=[
+                               (tag, tag.value) for tag in USType])
+    us_priority = models.CharField(max_length=1, null=False, blank=False, choices=[
+                                   (tag, tag.value) for tag in USPriority])
+    us_description = models.TextField(max_length=2144, null=False, blank=False)
 
 
 # class MembroDoTime(models.Model):
