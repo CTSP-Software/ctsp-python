@@ -1,7 +1,8 @@
 from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
-from .models import Project, User
+from .models import Project, User, US
 from django.contrib import messages
+from enum import Enum
 
 # Create your forms here.
 
@@ -88,3 +89,45 @@ class QueryProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ('project_name_or_ID',)
+
+
+class USRegister(forms.ModelForm):
+
+    us_title = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'id': 'us_title', 'placeholder': 'US Title'
+        }
+    ), label="US Name", max_length=US.us_title_max_length)
+
+    us_estimative = forms.IntegerField()
+
+    us_type_choices = (('US', "User Story"), ('EP', "Epic"), ('TH', "Theme"))
+    us_type = forms.ChoiceField(widget=forms.Select(
+        attrs={
+            'id': 'us_type'
+        }
+    ), label="US Type", choices=us_type_choices)
+
+    us_priority_choices = (('H', "High"), ('M', "Medium"), ('L', "Low"))
+    us_priority = forms.ChoiceField(widget=forms.Select(
+        attrs={
+            'id': 'us_priority'
+        }
+    ), label="Priority", choices=us_priority_choices)
+
+    us_description = forms.CharField(widget=forms.Textarea(
+        attrs={
+            'id': 'us_description', 'placeholder': "US Description", 'rows': '4', 'cols': '50'
+        }
+    ), label='US Description', max_length=US.us_description_max_length)
+
+    us_acceptance = forms.CharField(widget=forms.Textarea(
+        attrs={
+            'id': 'us_acceptance', 'placeholder': "US Acceptance Criteria", 'rows': '4', 'cols': '50'
+        }
+    ), label='US Description', max_length=US.us_acceptance_max_length)
+
+    class Meta:
+        model = US
+        fields = ('us_title', 'us_estimative', 'us_type',
+                  'us_priority', 'us_description', 'us_acceptance', )

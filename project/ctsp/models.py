@@ -76,13 +76,23 @@ class US(models.Model):
     # US fields
     us_project = models.ForeignKey(
         Project, on_delete=models.CASCADE)  # many US to one Project
+
     us_title = models.CharField(max_length=128, null=False, blank=False)
+    us_title_max_length = us_title.max_length
+
     us_estimative = models.IntegerField(null=False, blank=False)
+
     us_type = models.CharField(max_length=2, null=False, blank=False, choices=[
                                (tag, tag.value) for tag in USType])
+
     us_priority = models.CharField(max_length=1, null=False, blank=False, choices=[
                                    (tag, tag.value) for tag in USPriority])
+
     us_description = models.TextField(max_length=2144, null=False, blank=False)
+    us_description_max_length = us_description.max_length
+
+    us_acceptance = models.TextField(max_length=2144, null=False, blank=False)
+    us_acceptance_max_length = us_acceptance.max_length
 
 
 # class MembroDoTime(models.Model):

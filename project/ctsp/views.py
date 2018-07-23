@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.base import View
-from .forms import ProjectForm, QueryProjectForm, UserForm
+from .forms import ProjectForm, QueryProjectForm, UserForm, USRegister
 from .models import Project, Usuario
 from itertools import chain
 from django.db.models import Q
@@ -153,7 +153,9 @@ class ProductBacklog(TemplateView):
         return context
 
     def post(self, request):
-        return render(request, self.template_name)
+        form = USRegister()
+        context = {'form': form}
+        return render(request, self.template_name, context)
 
 
 class WelcomeLogin(TemplateView):
