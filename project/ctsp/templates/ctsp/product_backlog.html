@@ -20,7 +20,9 @@
         <li>
             <form>
                 {%csrf_token%}
-                {{ form.us_title }}
+                {% for field in form %}
+                    {{ field }}
+                {%endfor%}
             </form>
         </li>
     </ul>
