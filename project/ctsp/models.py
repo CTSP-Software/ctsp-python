@@ -3,7 +3,6 @@ import datetime
 from django.utils import timezone
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
-from enum import Enum
 
 # Create your models here.
 
@@ -30,9 +29,9 @@ class Usuario(models.Model):
     def email(self):
         return self.user_usuario.email
 
-   # user logon data
-   # user_email = models.EmailField(max_length=128)
-   # user_password = models.CharField(max_length=128, null=False)
+    # user logon data
+    # user_email = models.EmailField(max_length=128)
+    # user_password = models.CharField(max_length=128, null=False)
 
     class Meta:
         ordering = ('user_name',)
@@ -60,19 +59,17 @@ class Project(models.Model):
         return self.project_name
 
 
-class USType(Enum):
-    US = "User Story"
-    EP = "Epic"
-    TH = "Theme"
-
-
-class USPriority(Enum):
-    H = "High"
-    M = "Medium"
-    L = "Low"
-
-
 class US(models.Model):
+    USER_STORY = "US"
+    EPIC = "EP"
+    THEME = "TH"
+    us_type_choices = ((USER_STORY, "User Story"), (EPIC, "Epic"), (THEME, "Theme"))
+
+    HIGH = "H"
+    MEDIUM = "M"
+    LOW = "L"
+    us_priority_choices = ((HIGH, "High"), (MEDIUM, "Medium"), (LOW, "Low"))
+
     # US fields
     us_project = models.ForeignKey(
         Project, on_delete=models.CASCADE)  # many US to one Project
@@ -82,18 +79,15 @@ class US(models.Model):
 
     us_estimative = models.IntegerField(null=False, blank=False)
 
-    us_type = models.CharField(max_length=2, null=False, blank=False, choices=[
-                               (tag, tag.value) for tag in USType])
+    us_type = models.CharField(max_length=2, null=False, blank=False, choices=us_type_choices, default=USER_STORY)
 
-    us_priority = models.CharField(max_length=1, null=False, blank=False, choices=[
-                                   (tag, tag.value) for tag in USPriority])
+    us_priority = models.CharField(max_length=1, null=False, blank=False, choices=us_priority_choices, default=HIGH)
 
     us_description = models.TextField(max_length=2144, null=False, blank=False)
     us_description_max_length = us_description.max_length
 
     us_acceptance = models.TextField(max_length=2144, null=False, blank=False)
     us_acceptance_max_length = us_acceptance.max_length
-
 
 # class MembroDoTime(models.Model):
 #         # este ID provávelmente não precisa pois o django criar um ID automático de inteiro para sua base de dados

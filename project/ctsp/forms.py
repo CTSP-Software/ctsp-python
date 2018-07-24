@@ -30,7 +30,8 @@ class ProjectForm(forms.ModelForm, forms.Form):
 
     project_final_date = forms.DateField(widget=forms.DateInput(
         attrs={
-            'class': 'form-control control-label', 'id': 'final_date', 'placeholder': "MM/DD/YYY", 'autocomplete': 'off',
+            'class': 'form-control control-label', 'id': 'final_date', 'placeholder': "MM/DD/YYY",
+            'autocomplete': 'off',
         }
     ), label='Final date')
 
@@ -92,6 +93,7 @@ class QueryProjectForm(forms.ModelForm):
 
 
 class USRegister(forms.ModelForm):
+    # us_project = forms.IntegerField()
 
     us_title = forms.CharField(widget=forms.TextInput(
         attrs={
@@ -101,19 +103,17 @@ class USRegister(forms.ModelForm):
 
     us_estimative = forms.IntegerField()
 
-    us_type_choices = (('US', "User Story"), ('EP', "Epic"), ('TH', "Theme"))
     us_type = forms.ChoiceField(widget=forms.Select(
         attrs={
             'id': 'us_type'
         }
-    ), label="US Type", choices=us_type_choices)
+    ), label="US Type", choices=US.us_type_choices)
 
-    us_priority_choices = (('H', "High"), ('M', "Medium"), ('L', "Low"))
     us_priority = forms.ChoiceField(widget=forms.Select(
         attrs={
             'id': 'us_priority'
         }
-    ), label="Priority", choices=us_priority_choices)
+    ), label="Priority", choices=US.us_priority_choices)
 
     us_description = forms.CharField(widget=forms.Textarea(
         attrs={
@@ -129,5 +129,4 @@ class USRegister(forms.ModelForm):
 
     class Meta:
         model = US
-        fields = ('us_title', 'us_estimative', 'us_type',
-                  'us_priority', 'us_description', 'us_acceptance', )
+        exclude = ('us_project',)
