@@ -3,8 +3,8 @@ from django.views.generic import RedirectView
 
 from . import views
 from django.contrib.auth.views import login, logout_then_login
-app_name = 'ctsp'
 
+app_name = 'ctsp'
 
 '''
 This module provides all our ctsp application urls.

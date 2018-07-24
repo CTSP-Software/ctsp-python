@@ -1,14 +1,15 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.base import View
-from .forms import ProjectForm, QueryProjectForm, UserForm, USRegister
+from .forms import ProjectForm, QueryProjectForm, UserForm, USRegister, US
 from .models import Project, Usuario
 from itertools import chain
 from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.functional import cached_property
+import simplejson as json
 
 # Create your views here.
 
@@ -154,12 +155,22 @@ class ProductBacklogRedirect(View):
 
 class ProductBacklog(TemplateView):
     template_name = 'ctsp/product_backlog.html'
+    us_list = list()
 
     def get_context_data(self, **kwargs):
         context = super(ProductBacklog, self).get_context_data(**kwargs)
         context['form'] = USRegister()
-        context['projects'] = Project.objects.all()
         return context
+
+    def post(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            form = USRegister(request.POST)
+            if form.is_valid():
+                print("added")
+                self.us_list.append(form)
+                print("size = {}".format(len(self.us_list)))
+
+                return JsonResponse("true", safe=False)
 
 class WelcomeLogin(TemplateView):
     template_name = 'ctsp/welcome_login.html'
