@@ -24,12 +24,12 @@ class IndexView(View):
     template_name = 'ctsp/index.html'
 
     def post(self, request, *args, **kwargs):
-        '''
+        """
         This function receives the post method comming from the IndexView.
         The return is a JSON file returning all the elements of the searched Project.
         To learn about "Q classes" refer to: https://docs.djangoproject.com/en/2.0/topics/db/queries/
         To learn about JSON file structure refer to: https://www.json.org/ and http://json.org/example.html
-        '''
+        """
 
         if self.request.is_ajax():
             search_text = request.POST.get('search_text')
@@ -71,11 +71,11 @@ class AssignMembersView(TemplateView):
 
 
 class CreateProjectView(View):
-    '''
+    """
     This redirect view is used as a middleware view to creating a unique URL for the project.
     The URL contains the actual database PK for the project which is generated at the momment it is saved.
     This primary key can be encrypted in the future.
-    '''
+    """
 
     pattern_name = 'project_welcome'
 
@@ -155,7 +155,6 @@ class ProductBacklogRedirect(View):
 
 class ProductBacklog(TemplateView):
     template_name = 'ctsp/product_backlog.html'
-    us_list = list()
 
     def get_context_data(self, **kwargs):
         context = super(ProductBacklog, self).get_context_data(**kwargs)
@@ -166,11 +165,14 @@ class ProductBacklog(TemplateView):
         if self.request.is_ajax():
             form = USRegister(request.POST)
             if form.is_valid():
-                print("added")
-                self.us_list.append(form)
-                print("size = {}".format(len(self.us_list)))
+                instance = form.save(commit=False)
+                pk = super(ProductBacklog, self).get_context_data(**kwargs)['pk']
+                instance.us_project = Project.objects.get(id=pk)
+                form.save()
+                return JsonResponse({'form': form.cleaned_data, 'message': 'your US was registered.'}, safe=False)
+            else:
+                return JsonResponse({'message': 'Check your form inputs'}, safe=False)
 
-                return JsonResponse("true", safe=False)
 
 class WelcomeLogin(TemplateView):
     template_name = 'ctsp/welcome_login.html'
