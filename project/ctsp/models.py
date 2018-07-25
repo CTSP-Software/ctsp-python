@@ -77,7 +77,7 @@ class US(models.Model):
     us_title = models.CharField(max_length=128, null=False, blank=False)
     us_title_max_length = us_title.max_length
 
-    us_estimative = models.IntegerField(null=False, blank=False)
+    us_estimative = models.PositiveIntegerField(null=False, blank=False)
 
     us_type = models.CharField(max_length=2, null=False, blank=False, choices=us_type_choices, default=USER_STORY)
 
@@ -88,12 +88,3 @@ class US(models.Model):
 
     us_acceptance = models.TextField(max_length=2144, null=False, blank=False)
     us_acceptance_max_length = us_acceptance.max_length
-
-# class MembroDoTime(models.Model):
-#         # este ID provávelmente não precisa pois o django criar um ID automático de inteiro para sua base de dados
-#     membroDoTime_id = models.IntegerField(primary_key=True)
-#     membroDoTime_project = models.ForeignKey(
-#         'project_name', on_delete=models.CASCADE)
-#     membroDoTime_email = models.ForeignKey(
-#         'usuario_email', on_delete=models.CASCADE)
-#     membroDoTime_cargos = models.CharField(max_length=50, null=False)

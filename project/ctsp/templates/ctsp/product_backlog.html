@@ -51,6 +51,7 @@ Login - CTSP
                     $("#warning").empty();
                     $("#warning").append("<p>" + data['message'] + "</p>");
                 } else {
+                    // print commit list message
                     $("#commit-list-message")
                         .empty()
                         .append(
@@ -58,16 +59,41 @@ Login - CTSP
                             "Your commit list" +
                             "</p>"
                         );
-
+                    // reset form
                     $("#us-form")[0].reset();
 
-                    let feedback = data.feedback;
+                    // update list
+                    var feedback = data['feedback']
+
+                    // create printable list format Type and Priority
+                    var list = {};
+                    if (feedback['us_type'] === 'US') {
+                        list['us_type'] = "User Story";
+                    } else if (feedback['us_type'] === 'EP') {
+                        list['us_type'] = "User Type";
+                    } else {
+                        list['us_type'] = "Theme";
+                    }
+
+                    if (feedback['us_priority'] === 'H') {
+                        list['us_priority'] = "High";
+                    } else if (feedback['us_priority'] === 'M') {
+                        list['us_priority'] = "Medium";
+                    } else {
+                        list['us_priority'] = "Low";
+                    }
+
+                    console.log(list);
+
 
                     $("#commit-list").append(
                         "<li>" +
                         "<p>" +
-                        "US Title = " +
-                        feedback['us_title'] +
+                        list['us_type'] +
+                        " Title = " +
+                        feedback['us_title'] + "; " +
+                        "Priority = " + list['us_priority'] + "; " +
+                        "Days estimative = " + feedback['us_estimative'] +
                         "</p>" +
                         "</li>"
                     );
