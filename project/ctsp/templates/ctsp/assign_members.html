@@ -1,10 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'ctsp/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+Members Assignment - CTSP
+{% endblock %}
 
-</body>
-</html>
+
+{% block body_block %}
+
+<div>
+    <form id="user-form" action="{% url 'ctsp:welcome_login' %}" method="post">
+        {%csrf_token%}
+        <select id="user" name="user">
+            {%for field in users %}
+            <option id="opt" value={{field.pk}}>
+                {{field.pk}} - {{ field.user_name }}
+            </option>
+            {%endfor%}
+        </select>
+    </form>
+</div>
+
+<button id="go-add">Commit</button>
+<button id="back" onclick="goBack()">Go Back</button>
+
+
+<script>
+
+    function goBack() {
+        window.history.back();
+    }
+
+    $("#go-add").on("click", function (e) {
+        let member = $("#user").val();
+
+        $.ajax({
+            type: "post",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'member': member,
+            },
+            success: function () {
+                console.log("true");
+            }
+
+        })
+    });
+
+</script>
+{% endblock %}

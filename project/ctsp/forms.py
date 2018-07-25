@@ -37,7 +37,7 @@ class ProjectForm(forms.ModelForm, forms.Form):
 
     class Meta:
         model = Project
-        fields = '__all__'
+        exclude = ('project_member',)
 
     def clean(self):
         cleaned_data = super().clean()
@@ -47,7 +47,6 @@ class ProjectForm(forms.ModelForm, forms.Form):
             if final_date < start_date:
                 raise forms.ValidationError("string error")
             return cleaned_data
-
 
 class UserForm(forms.Form):
     nome = forms.CharField(required=True)
@@ -101,7 +100,11 @@ class USRegister(forms.ModelForm):
         }
     ), label="US Name", max_length=US.us_title_max_length)
 
-    us_estimative = forms.IntegerField(min_value=0, max_value=300000, label="Estimative in days")
+    us_estimative = forms.IntegerField(widget=forms.NumberInput(
+        attrs={
+            "label": "number"
+        }
+    ), min_value=0, max_value=300000, label="Estimative in days")
 
     us_type = forms.ChoiceField(widget=forms.Select(
         attrs={

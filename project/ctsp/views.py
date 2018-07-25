@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.base import View
 from .forms import ProjectForm, QueryProjectForm, UserForm, USRegister, US
-from .models import Project, Usuario
+from .models import Project, Usuario, ProjectUser
 from itertools import chain
 from django.db.models import Q
 from django.contrib.auth.models import User
@@ -48,7 +48,9 @@ class IndexView(View):
                     'project_start': project[i].project_start_date,
                     'project_end': project[i].project_final_date,
                 })
-        return JsonResponse(context, safe=False)
+            return JsonResponse(context, safe=False)
+
+        return render(request, self.template_name)
 
     def get(self, request):
         form = ProjectForm()
@@ -84,10 +86,11 @@ class CreateProjectView(View):
     def post(self, request, *args, **kwargs):
         form = ProjectForm(request.POST)
         if form.is_valid():
+            print("form valid")
             project = form.save(commit=True)
             return redirect('ctsp:project_welcome', pk=project.pk, permanent=False)
 
-        return redirect('index')
+        # return redirect('ctsp:index')
 
 
 class WelcomeProjectView(TemplateView):
@@ -144,12 +147,39 @@ class LogInMember(View):
         return redirect("ctsp:welcome_login")
 
 
-class ProductBacklogRedirect(View):
-    pattern_name = 'ctsp:product_backlog'
+class ProjectRedirect(View):
+    template_name = 'ctsp/welcome_login.html'
 
     def post(self, request):
         pk = request.POST.get("select_project_pk")
-        return redirect(self.pattern_name, pk=pk)
+        if request.POST.get('_product'):
+            return redirect('ctsp:product_backlog', pk=pk)
+        if request.POST.get('_team'):
+            return redirect('ctsp:assign_members', pk=pk)
+        else:
+            return render(request, self.template_name)
+
+
+class AssignMembers(TemplateView):
+    template_name = 'ctsp/assign_members.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AssignMembers, self).get_context_data(**kwargs)
+        context['users'] = Usuario.objects.all()
+        return context
+
+    def post(self, request, **kwargs):
+        if self.request.is_ajax():
+            proj_pk = super(AssignMembers, self).get_context_data(**kwargs)['pk'];
+            user_pk = request.POST['member']
+
+            # just in case...
+            # user = Usuario.objects.get(id=user_pk)
+            # project = Project.objects.get(id=proj_pk)
+
+            instance = ProjectUser(member_id=user_pk, project_id=proj_pk)
+            instance.save()
+            return JsonResponse("lul", safe=False)
 
 
 class ProductBacklog(TemplateView):
