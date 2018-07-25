@@ -37,7 +37,7 @@ class ProjectForm(forms.ModelForm, forms.Form):
 
     class Meta:
         model = Project
-        exclude = ('project_member',)
+        fields = "__all__"
 
     def clean(self):
         cleaned_data = super().clean()
@@ -47,6 +47,7 @@ class ProjectForm(forms.ModelForm, forms.Form):
             if final_date < start_date:
                 raise forms.ValidationError("string error")
             return cleaned_data
+
 
 class UserForm(forms.Form):
     nome = forms.CharField(required=True)
@@ -104,7 +105,7 @@ class USRegister(forms.ModelForm):
         attrs={
             "label": "number"
         }
-    ), min_value=0, max_value=300000, label="Estimative in days")
+    ), label="Estimative in days")
 
     us_type = forms.ChoiceField(widget=forms.Select(
         attrs={

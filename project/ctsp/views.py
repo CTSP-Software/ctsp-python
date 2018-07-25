@@ -174,12 +174,13 @@ class AssignMembers(TemplateView):
             user_pk = request.POST['member']
 
             # just in case...
-            # user = Usuario.objects.get(id=user_pk)
-            # project = Project.objects.get(id=proj_pk)
+            user = Usuario.objects.get(id=user_pk)
+            print(user.user_name)
+            project = Project.objects.get(id=proj_pk)
 
             instance = ProjectUser(member_id=user_pk, project_id=proj_pk)
             instance.save()
-            return JsonResponse("lul", safe=False)
+            return JsonResponse({'user': user.user_name, 'project': project.project_name}, safe=False)
 
 
 class ProductBacklog(TemplateView):
