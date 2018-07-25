@@ -101,7 +101,7 @@ class USRegister(forms.ModelForm):
         }
     ), label="US Name", max_length=US.us_title_max_length)
 
-    us_estimative = forms.IntegerField()
+    us_estimative = forms.IntegerField(min_value=0, max_value=300000, label="Estimative in days")
 
     us_type = forms.ChoiceField(widget=forms.Select(
         attrs={
