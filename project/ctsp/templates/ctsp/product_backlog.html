@@ -28,6 +28,7 @@ Login - CTSP
                 </p>
             </form>
             <button id="go-add" name="add"> Add</button>
+            <div id="message"></div>
         </li>
     </ul>
 </div>
@@ -41,10 +42,13 @@ Login - CTSP
             type: "post",
             data: form,
             success: function (data) {
-
-            },
-            error: function (data) {
-
+                if (!data['form']) {
+                    $("#message").empty();
+                    $("#message").append("<p>" + data['message'] + "</p>");
+                } else {
+                    $("#message").empty();
+                    console.log("we made it")
+                }
             }
         })
     });
@@ -56,7 +60,7 @@ Login - CTSP
         $.ajax({
             type: "get",
             dataType: 'json',
-            success: function () {
+            success: function (data) {
 
             },
             error: function () {
