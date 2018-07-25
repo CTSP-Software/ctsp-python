@@ -19,8 +19,13 @@ Members Assignment - CTSP
         </select>
     </form>
 </div>
-
 <button id="go-add">Commit</button>
+
+<div id="commits">
+    <ol id="commit-list">
+    </ol>
+</div>
+
 <button id="back" onclick="goBack()">Go Back</button>
 
 
@@ -39,8 +44,13 @@ Members Assignment - CTSP
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
                 'member': member,
             },
-            success: function () {
-                console.log("true");
+            success: function (data) {
+                console.log(data['user']);
+                $("#commit-list").append(
+                    "<li>" + "User: " +
+                    data['user'] + "; added to project: " + data['project'] + ";" +
+                    "</li>"
+                )
             }
 
         })
