@@ -7,12 +7,13 @@ Login - CTSP
 
 {% block body_block %}
 <h1 class="text-dark">Product Backlog</h1>
+<p id="warning"></p>
 
-<p>
-    <button id="go-commit" name='commit'> Commit US List <img
-            src="https://banner2.kisspng.com/20180315/zhw/kisspng-plus-and-minus-signs-clip-art-plus-sign-clipart-5aaad86128c511.589061321521145953167.jpg"
-            width='20' height='15' alt="plus symbol image"></button>
-</p>
+<!--<p>-->
+<!--<button id="go-commit" name='commit'> Commit US List <img-->
+<!--src="https://banner2.kisspng.com/20180315/zhw/kisspng-plus-and-minus-signs-clip-art-plus-sign-clipart-5aaad86128c511.589061321521145953167.jpg"-->
+<!--width='20' height='15' alt="plus symbol image"></button>-->
+<!--</p>-->
 
 
 <div id="all">
@@ -27,44 +28,50 @@ Login - CTSP
                     {{form.us_description}} {{form.us_acceptance}}
                 </p>
             </form>
-            <button id="go-add" name="add"> Add</button>
-            <div id="message"></div>
+            <button id="go-commit" name="commit"> Commit</button>
+            <p id="commit-list-message"></p>
+            <div id="commits">
+                <ol id="commit-list">
+                </ol>
+            </div>
         </li>
     </ul>
 </div>
 
 <script>
 
-    $("#go-add").on("click", function (e) {
+    $("#go-commit").on("click", function (e) {
         var form = $("#us-form").serialize();
 
         $.ajax({
             type: "post",
             data: form,
             success: function (data) {
-                if (!data['form']) {
-                    $("#message").empty();
-                    $("#message").append("<p>" + data['message'] + "</p>");
+                if (!data['feedback']) {
+                    $("#warning").empty();
+                    $("#warning").append("<p>" + data['message'] + "</p>");
                 } else {
-                    $("#message").empty();
-                    console.log("we made it")
+                    $("#commit-list-message")
+                        .empty()
+                        .append(
+                            "<p>" +
+                            "Your commit list" +
+                            "</p>"
+                        );
+
+                    $("#us-form")[0].reset();
+
+                    let feedback = data.feedback;
+
+                    $("#commit-list").append(
+                        "<li>" +
+                        "<p>" +
+                        "US Title = " +
+                        feedback['us_title'] +
+                        "</p>" +
+                        "</li>"
+                    );
                 }
-            }
-        })
-    });
-
-    $("#go-commit").on("click", function (e) {
-        let form_data = JSON.stringify($("#us-form").serializeArray());
-        let id = 2;
-
-        $.ajax({
-            type: "get",
-            dataType: 'json',
-            success: function (data) {
-
-            },
-            error: function () {
-
             }
         })
     });
