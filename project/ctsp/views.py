@@ -9,7 +9,6 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.functional import cached_property
-import simplejson as json
 
 # Create your views here.
 
