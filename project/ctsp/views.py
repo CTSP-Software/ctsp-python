@@ -165,11 +165,18 @@ class ProductBacklog(TemplateView):
         if self.request.is_ajax():
             form = USRegister(request.POST)
             if form.is_valid():
+                # create instance to save and check
                 instance = form.save(commit=False)
                 pk = super(ProductBacklog, self).get_context_data(**kwargs)['pk']
                 instance.us_project = Project.objects.get(id=pk)
                 form.save()
-                return JsonResponse({'form': form.cleaned_data, 'message': 'your US was registered.'}, safe=False)
+
+                # creating feedback dict
+                feedback = dict()
+                for key in form.cleaned_data:
+                    feedback[key] = form.cleaned_data[key]
+
+                return JsonResponse({'feedback': feedback, 'message': 'your US was registered.'}, safe=False)
             else:
                 return JsonResponse({'message': 'Check your form inputs'}, safe=False)
 
