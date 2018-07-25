@@ -18,12 +18,8 @@ urlpatterns = [
          name='create_project'),
     path('welcome/<int:pk>/', views.WelcomeProjectView.as_view(),
          name='project_welcome'),
-    path('create_pbacklog/<int:pk>/',
-         views.CreatePbacklogView.as_view(), name='create_pbacklog'),
     path('create_sprint/<int:pk>/',
          views.CreateSprintView.as_view(), name='create_sprint'),
-    path('assign_members/<int:pk>/',
-         views.AssignMembersView.as_view(), name='assign_members'),
     path('about/', views.AboutView.as_view(), name='about'),
     path('create_members/<int:pk>/',
          views.CreateMembers.as_view(), name='create_members'),
@@ -32,6 +28,7 @@ urlpatterns = [
     path('welcome_login/', views.WelcomeLogin.as_view(), name='welcome_login'),
     path('logout/', logout_then_login,
          {'login_url': '/login/'}, name='logout'),
-    path('goto_product_backlog', views.ProductBacklogRedirect.as_view(), name='goto_product_backlog'),
-    path('product_backlog/<int:pk>/', views.ProductBacklog.as_view(), name='product_backlog')
+    path('goto_product_backlog', views.ProjectRedirect.as_view(), name='goto_product_backlog'),
+    path('product_backlog/<int:pk>/', views.ProductBacklog.as_view(), name='product_backlog'),
+    path('assign_members/<int:pk>/', views.AssignMembers.as_view(), name='assign_members')
 ]

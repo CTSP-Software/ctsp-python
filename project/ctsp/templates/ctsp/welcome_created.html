@@ -10,21 +10,4 @@ Welcome! - CTSP
 <p class="h3 text-success">
     The project ID is {{ field.pk }}
 </p>
-<p class="h5">
-    Project start options:
-</p>
-<ol>
-    <li>
-        <a href="{% url 'ctsp:create_members' field.pk %}">Create team members</a>
-    </li>
-    <li>
-        <a href="{% url 'ctsp:assign_members' field.pk %}">Assign team members to Scrum roles</a>
-    </li>
-    <li>
-        <a href="{% url 'ctsp:create_pbacklog' field.pk %}">Create product backlog for the project</a>
-    </li>
-    <li>
-        <a href="{% url 'ctsp:create_sprint' field.pk %}">Create a Sprint</a>
-    </li>
-</ol>
 {%endfor%} {% endblock %}

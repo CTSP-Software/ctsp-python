@@ -13,6 +13,9 @@ To learn more about Django database models refer to: https://docs.djangoproject.
 '''
 
 
+# class User_Project(models.Model):
+
+
 class Usuario(models.Model):
     # user information data
     user_name = models.CharField(max_length=128, null=False, blank=False)
@@ -42,15 +45,13 @@ class Usuario(models.Model):
 
 class Project(models.Model):
     # project information
+    # project_member = models.ManyToManyField(Usuario)
     project_name = models.CharField(max_length=128, null=False, blank=False)
     project_name_max_length = project_name.max_length
     project_start_date = models.DateField(
         default=timezone.now, null=False, blank=False)
     project_final_date = models.DateField(
         default=timezone.now, null=False, blank=False)
-
-    # project relation
-    # project_members = models.ManyToManyField(User)
 
     class Meta:
         ordering = ('project_name',)
@@ -59,7 +60,13 @@ class Project(models.Model):
         return self.project_name
 
 
+class ProjectUser(models.Model):
+    member = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+
 class US(models.Model):
+    # enum definitions
     USER_STORY = "US"
     EPIC = "EP"
     THEME = "TH"

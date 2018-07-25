@@ -1,7 +1,7 @@
 {% extends 'ctsp/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-Login - CTSP
+Product Backlog - CTSP
 {% endblock %}
 
 
@@ -22,7 +22,8 @@ Login - CTSP
             <form id="us-form">
                 {%csrf_token%}
                 <p>
-                    {{form.us_title}} {{form.us_estimative}} {{form.us_priority}} {{form.us_type}}
+                    Title: {{form.us_title}} Points: {{form.us_estimative}} Priority: {{form.us_priority}} Type:
+                    {{form.us_type}}
                 </p>
                 <p>
                     {{form.us_description}} {{form.us_acceptance}}
@@ -35,10 +36,14 @@ Login - CTSP
                 </ol>
             </div>
         </li>
+        <button id="back" onclick="goBack()">Go Back</button>
     </ul>
 </div>
 
 <script>
+    function goBack() {
+        window.history.back();
+    }
 
     $("#go-commit").on("click", function (e) {
         var form = $("#us-form").serialize();
@@ -48,9 +53,12 @@ Login - CTSP
             data: form,
             success: function (data) {
                 if (!data['feedback']) {
-                    $("#warning").empty();
-                    $("#warning").append("<p>" + data['message'] + "</p>");
+                    $("#warning")
+                        .empty()
+                        .append("<p>" + data['message'] + "</p>");
                 } else {
+                    // clear waning messages
+                    $("#warning").empty();
                     // print commit list message
                     $("#commit-list-message")
                         .empty()
@@ -93,7 +101,7 @@ Login - CTSP
                         " Title = " +
                         feedback['us_title'] + "; " +
                         "Priority = " + list['us_priority'] + "; " +
-                        "Days estimative = " + feedback['us_estimative'] +
+                        feedback['us_type'] + " points= " + feedback['us_estimative'] +
                         "</p>" +
                         "</li>"
                     );
